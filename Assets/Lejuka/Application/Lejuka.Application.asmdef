@@ -1,0 +1,17 @@
+{
+    "name": "Lejuka.Application",
+    "rootNamespace": "Lejuka.Application",
+    "references": [
+        "Lejuka.Domain",
+        "Lejuka.Contracts"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": true
+}
