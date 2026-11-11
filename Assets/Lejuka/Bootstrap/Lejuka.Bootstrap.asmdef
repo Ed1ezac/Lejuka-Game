@@ -1,0 +1,22 @@
+{
+    "name": "Lejuka.Bootstrap",
+    "rootNamespace": "Lejuka.Bootstrap",
+    "references": [
+        "Lejuka.Contracts",
+        "Lejuka.Domain",
+        "Lejuka.Application",
+        "Lejuka.Unity",
+        "UnityEngine.UI",
+        "Unity.TextMeshPro",
+        "VContainer"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
