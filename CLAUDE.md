@@ -27,8 +27,11 @@ Feature-first folders (`Cards/`, `Players/`, `Game/`, `Tables/`) inside each lay
 - `Lejuka.Contracts` (L1) — boundary interfaces, DTOs, enums, events. Depends on nothing.
 - `Lejuka.Domain` (L2a) → Contracts — entities, value objects, pure rules.
 - `Lejuka.Application` (L2b) → Domain, Contracts — use cases and orchestration.
-- `Lejuka.Tests.EditMode` — NUnit edit-mode tests, with fakes under `Fakes/`.
-- Not written yet: `Lejuka.Unity` (L3 adapters) and `Lejuka.Bootstrap` (L4 composition root).
+- `Lejuka.Unity` (L3) → Application, Domain, Contracts — adapters: agents, presentation gate, views, HUD presenters, persistence, configs. No VContainer, and no game rules: it only translates input and shows events.
+- `Lejuka.Bootstrap` (L4) → everything + VContainer — `GameLifetimeScope` and `MockupEntryPoint`. The only place that wires layers together.
+- `Lejuka.Unity.Editor` — the `Lejuka > Create Default Configs` and `Lejuka > Wire Mockup Scene` menu items.
+- `Lejuka.Tests.EditMode` — NUnit edit-mode tests for L1/L2 (no engine references), with fakes under `Fakes/`.
+- `Lejuka.Tests.UnityEditMode` — edit-mode tests for L3.
 
 Rules for L1/L2:
 
@@ -39,6 +42,14 @@ Rules for L1/L2:
 - Bad input throws `ArgumentOutOfRangeException`; a broken game rule throws `DomainRuleException`.
 - Namespaces follow folders. The single-game aggregate is `GameRound`, because a type named `Game` would clash with the `Game` namespaces.
 - In code under a `Lejuka.*` namespace, write `UnityEngine.Application` in full: a bare `Application` resolves to the `Lejuka.Application` namespace.
+
+Rules for L3/L4:
+
+- C# 9 as above, but no records (these assemblies have no `IsExternalInit` shim).
+- Under `Lejuka.Unity.*`, write `UnityEngine.Camera` and `UnityEditor.Editor` in full: a bare `Camera` or `Editor` resolves to the `Lejuka.Unity.Camera` / `Lejuka.Unity.Editor` namespace.
+- All animation goes through `Lejuka.Unity.Tweening.Tween` (built on `Awaitable`), so one class changes if DOTween is adopted.
+- Anything the core can call first does `await Awaitable.MainThreadAsync()`, and every async path takes a `CancellationToken` that really stops it.
+- Scene references are serialized fields assigned by `Lejuka > Wire Mockup Scene`. When a serialized field is added or renamed, update `MockupSceneWirer` to match.
 
 ## Conventions
 
